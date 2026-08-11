@@ -52,4 +52,4 @@ Với mỗi thành viên, ghi rõ nhiệm vụ và link commit/PR tương ứng.
 
 | Thành viên | Phần việc | Commit/PR | Điều đã học |
 |---|---|---|---|
-| Nguyễn Thế Khiêm | Checkpoint 1 — correlation ID, log enrichment, PII redaction, error rate | _(điền commit SHA)_ | Redact PII phải đặt trước bước ghi file, và regex quá tham sẽ che nhầm trace ID — cần neo bằng từ khóa. |
+| Nguyễn Thế Khiêm | Checkpoint 1 — correlation ID, log enrichment, PII redaction, error rate | 6b333de | Redact PII phải đặt trước bước ghi file, và regex quá tham sẽ che nhầm trace ID — cần neo bằng từ khóa. |
