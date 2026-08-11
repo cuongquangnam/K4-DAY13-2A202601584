@@ -1,0 +1,5 @@
+Local trace waterfall fallback for req-d2627011
+agent.run /chat                         ~2650 ms
+  mock_rag.retrieve rag_retrieval_slow   2500 ms   <-- dominant span / root cause
+  FakeLLM.generate                        ~150 ms
+Evidence source: data/logs.jsonl event=rag_retrieval_slow and response_sent latency_ms.

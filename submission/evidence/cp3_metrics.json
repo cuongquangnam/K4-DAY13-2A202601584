@@ -1,0 +1,143 @@
+{
+  "challenge_id": "day13-k4-observability-v1",
+  "incident": "rag_slow",
+  "affected_feature": "monitoring",
+  "latency_threshold_ms": 2000,
+  "baseline_metrics": {
+    "traffic": 5,
+    "errors_total": 0,
+    "error_rate_pct": 0.0,
+    "latency_p50": 150.0,
+    "latency_p95": 150.0,
+    "latency_p99": 150.0,
+    "avg_cost_usd": 0.0018,
+    "total_cost_usd": 0.0091,
+    "tokens_in_total": 175,
+    "tokens_out_total": 573,
+    "error_breakdown": {},
+    "quality_avg": 0.84
+  },
+  "incident_metrics": {
+    "traffic": 5,
+    "errors_total": 0,
+    "error_rate_pct": 0.0,
+    "latency_p50": 2651.0,
+    "latency_p95": 2651.0,
+    "latency_p99": 2651.0,
+    "avg_cost_usd": 0.0017,
+    "total_cost_usd": 0.0084,
+    "tokens_in_total": 175,
+    "tokens_out_total": 522,
+    "error_breakdown": {},
+    "quality_avg": 0.84
+  },
+  "baseline_requests": [
+    {
+      "status_code": 200,
+      "correlation_id": "req-ec5092ab",
+      "feature": "monitoring",
+      "elapsed_ms": 154.2,
+      "body_latency_ms": 150
+    },
+    {
+      "status_code": 200,
+      "correlation_id": "req-71f11dca",
+      "feature": "monitoring",
+      "elapsed_ms": 154.2,
+      "body_latency_ms": 150
+    },
+    {
+      "status_code": 200,
+      "correlation_id": "req-cd1c3ad6",
+      "feature": "monitoring",
+      "elapsed_ms": 153.6,
+      "body_latency_ms": 150
+    },
+    {
+      "status_code": 200,
+      "correlation_id": "req-9629db7c",
+      "feature": "monitoring",
+      "elapsed_ms": 153.9,
+      "body_latency_ms": 150
+    },
+    {
+      "status_code": 200,
+      "correlation_id": "req-a9e0c3cd",
+      "feature": "monitoring",
+      "elapsed_ms": 153.5,
+      "body_latency_ms": 150
+    }
+  ],
+  "challenge_requests": [
+    {
+      "status_code": 200,
+      "correlation_id": "req-d2627011",
+      "feature": "monitoring",
+      "elapsed_ms": 2654.9,
+      "body_latency_ms": 2651
+    },
+    {
+      "status_code": 200,
+      "correlation_id": "req-dad377d3",
+      "feature": "monitoring",
+      "elapsed_ms": 2654.3,
+      "body_latency_ms": 2651
+    },
+    {
+      "status_code": 200,
+      "correlation_id": "req-3b9e6873",
+      "feature": "monitoring",
+      "elapsed_ms": 2654.4,
+      "body_latency_ms": 2651
+    },
+    {
+      "status_code": 200,
+      "correlation_id": "req-78ee6589",
+      "feature": "monitoring",
+      "elapsed_ms": 2654.5,
+      "body_latency_ms": 2651
+    },
+    {
+      "status_code": 200,
+      "correlation_id": "req-eb74ea03",
+      "feature": "monitoring",
+      "elapsed_ms": 2655.0,
+      "body_latency_ms": 2651
+    }
+  ],
+  "enable_response": {
+    "ok": true,
+    "incidents": {
+      "rag_slow": true,
+      "tool_fail": false,
+      "cost_spike": false
+    }
+  },
+  "disable_response": {
+    "ok": true,
+    "incidents": {
+      "rag_slow": false,
+      "tool_fail": false,
+      "cost_spike": false
+    }
+  },
+  "root_correlation_id": "req-d2627011",
+  "incident_latencies_ms": [
+    150,
+    150,
+    150,
+    150,
+    150,
+    2651,
+    2651,
+    2651,
+    2651,
+    2651
+  ],
+  "incident_latency_avg_ms": 1400.5,
+  "evidence_counts": {
+    "total_log_records": 28,
+    "rag_retrieval_slow_records": 5,
+    "root_request_records": 3
+  }
+}

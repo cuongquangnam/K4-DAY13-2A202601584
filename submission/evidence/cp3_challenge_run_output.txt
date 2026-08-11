@@ -1,0 +1,46 @@
+Challenge ID: day13-k4-observability-v1
+Incident: rag_slow
+Affected feature: monitoring
+Latency threshold: 2000 ms
+
+Baseline metrics:
+{
+  "traffic": 5,
+  "errors_total": 0,
+  "error_rate_pct": 0.0,
+  "latency_p50": 150.0,
+  "latency_p95": 150.0,
+  "latency_p99": 150.0,
+  "avg_cost_usd": 0.0018,
+  "total_cost_usd": 0.0091,
+  "tokens_in_total": 175,
+  "tokens_out_total": 573,
+  "error_breakdown": {},
+  "quality_avg": 0.84
+}
+
+Incident metrics:
+{
+  "traffic": 5,
+  "errors_total": 0,
+  "error_rate_pct": 0.0,
+  "latency_p50": 2651.0,
+  "latency_p95": 2651.0,
+  "latency_p99": 2651.0,
+  "avg_cost_usd": 0.0017,
+  "total_cost_usd": 0.0084,
+  "tokens_in_total": 175,
+  "tokens_out_total": 522,
+  "error_breakdown": {},
+  "quality_avg": 0.84
+}
+
+Challenge requests:
+[200] req-d2627011 | monitoring | elapsed=2654.9ms | body_latency=2651ms
+[200] req-dad377d3 | monitoring | elapsed=2654.3ms | body_latency=2651ms
+[200] req-3b9e6873 | monitoring | elapsed=2654.4ms | body_latency=2651ms
+[200] req-78ee6589 | monitoring | elapsed=2654.5ms | body_latency=2651ms
+[200] req-eb74ea03 | monitoring | elapsed=2655.0ms | body_latency=2651ms
+
+Root-cause correlation ID: req-d2627011
+rag_retrieval_slow log records: 5
