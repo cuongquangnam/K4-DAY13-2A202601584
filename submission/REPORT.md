@@ -9,12 +9,12 @@
 | **Commit SHA cuối** | 4421ca0 |
 | **Thành viên và vai trò** | Xem bảng bên dưới |
 
-| Thành viên | Vai trò |
-|---|---|
-| Trương Công Cường | Checkpoint 2 — Tracing, Prompt Version, Dashboard/SLO/Alert |
-| Phạm Thanh Hưng | Checkpoint 3 — Challenge Investigation |
-| Nguyễn Thế Khiêm | Logging & PII |
-| Đỗ Đức Tiến | Evaluation & Report |
+| Thành viên |MSSV| Vai trò |
+|---|---|---|
+| Trương Công Cường | 2A202601584 | Checkpoint 2 — Tracing, Prompt Version, Dashboard/SLO/Alert |
+| Phạm Thanh Hưng| 2A202601468 | Checkpoint 3 — Challenge Investigation |
+| Nguyễn Thế Khiêm | 2A202601036 | Checkpoint 1 - Logging & PII |
+| Đỗ Đức Tiến | 2A202601130 | Evaluation & Report |
 
 ---
 
@@ -335,5 +335,5 @@ Client
 | Trace waterfall text | [cp3_trace_waterfall.txt](evidence/cp3_trace_waterfall.txt) | ✅ |
 | Trace waterfall screenshot | [cp3_trace_waterfall.png](evidence/cp3_trace_waterfall.png) | ✅ |
 | Dashboard HTML | [dashboard.html](evidence/dashboard.html) | ✅ |
-| Prompt v1/v2 trace evidence | (evidence/ListOfTraces.png) | ⚠️ Cần bổ sung |
-| Dashboard runtime screenshot | (evidence/SpanScreenshot.png) | ⚠️ Cần bổ sung |
+| Prompt v1/v2 trace evidence | (evidence/ListOfTraces.png) | ✅ |
+| Dashboard runtime screenshot | (evidence/SpanScreenshot.png) | ✅ |
