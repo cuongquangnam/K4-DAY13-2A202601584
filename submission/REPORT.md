@@ -335,5 +335,5 @@ Client
 | Trace waterfall text | [cp3_trace_waterfall.txt](evidence/cp3_trace_waterfall.txt) | ✅ |
 | Trace waterfall screenshot | [cp3_trace_waterfall.png](evidence/cp3_trace_waterfall.png) | ✅ |
 | Dashboard HTML | [dashboard.html](evidence/dashboard.html) | ✅ |
-| Prompt v1/v2 trace evidence | _(Langfuse cloud trace)_ | ⚠️ Cần bổ sung |
-| Dashboard runtime screenshot | _(ảnh dashboard live)_ | ⚠️ Cần bổ sung |
+| Prompt v1/v2 trace evidence | (evidence/ListOfTraces.png) | ⚠️ Cần bổ sung |
+| Dashboard runtime screenshot | (evidence/SpanScreenshot.png) | ⚠️ Cần bổ sung |
