@@ -1,6 +1,7 @@
 import argparse
 import concurrent.futures
 import json
+import os
 import sys
 import time
 from pathlib import Path
@@ -14,7 +15,7 @@ if str(REPO_ROOT) not in sys.path:
 from app.challenge import load_challenge, ordered_queries
 from app.cli import configure_utf8_stdio
 
-BASE_URL = "http://127.0.0.1:8000"
+BASE_URL = os.getenv("BASE_URL", "http://127.0.0.1:8000")
 QUERIES = Path("data/sample_queries.jsonl")
 
 
@@ -23,7 +24,8 @@ def send_request(client: httpx.Client, payload: dict) -> None:
         start = time.perf_counter()
         r = client.post(f"{BASE_URL}/chat", json=payload)
         latency = (time.perf_counter() - start) * 1000
-        print(f"[{r.status_code}] {r.json().get('correlation_id')} | {payload['feature']} | {latency:.1f}ms")
+        cid = r.headers.get("x-request-id") or r.json().get("correlation_id", "None")
+        print(f"[{r.status_code}] {cid} | {payload['feature']} | {latency:.1f}ms")
     except Exception as e:
         print(f"Error: {e}")
 

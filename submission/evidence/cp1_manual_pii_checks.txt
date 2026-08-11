@@ -1,0 +1,8 @@
+Select-String -Path data\logs.jsonl -Pattern "@"
+Result: no matches
+
+Select-String -Path data\logs.jsonl -Pattern "4111"
+Result: no matches
+
+Select-String -Path data\logs.jsonl -Pattern "REDACTED"
+Result: matches found for REDACTED_EMAIL, REDACTED_PHONE_VN, and REDACTED_CREDIT_CARD.
