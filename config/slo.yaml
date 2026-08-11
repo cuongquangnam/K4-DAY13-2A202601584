@@ -4,13 +4,28 @@ slis:
   latency_p95_ms:
     objective: 3000
     target: 99.5
-    note: Replace with your group's target
+    note: >
+      P95 latency dưới 3s cho 99.5% cửa sổ 28 ngày.
+      Align dashboard panel latency threshold p95 lte 3000ms.
+      Symptom: người dùng chờ câu trả lời /chat quá lâu.
   error_rate_pct:
     objective: 2
     target: 99.0
+    note: >
+      Error rate dưới 2% (tức ≥99% request thành công) trong cửa sổ.
+      Align panel errors threshold error_rate_pct lte 2.
+      Symptom: /chat trả 5xx hoặc không có answer.
   daily_cost_usd:
     objective: 2.5
     target: 100.0
+    note: >
+      Ngân sách demo lab: tổng cost dưới $2.5/ngày.
+      Align panel cost threshold total lte 2.5.
+      Symptom: burn rate LLM tăng đột biến so với baseline.
   quality_score_avg:
     objective: 0.75
     target: 95.0
+    note: >
+      Quality proxy trung bình ≥ 0.75 cho 95% cửa sổ đo.
+      Align panel quality threshold mean gte 0.75.
+      Symptom: câu trả lời ngắn, thiếu context, hoặc có redaction bất thường.

@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <title>Day 13 AI Observability Dashboard</title>
+  <style>
+    :root {
+      --bg: #0f1419;
+      --card: #1a2332;
+      --text: #e7eef7;
+      --muted: #8da2b8;
+      --ok: #3dbe8c;
+      --bad: #e36a6a;
+      --line: #2b3b51;
+      --accent: #5b9fd4;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0; font-family: "IBM Plex Sans", "Segoe UI", sans-serif;
+      background: radial-gradient(circle at top left, #1b2a3d, var(--bg));
+      color: var(--text); min-height: 100vh; padding: 24px;
+    }
+    header {
+      display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px;
+      margin-bottom: 18px; border-bottom: 1px solid var(--line); padding-bottom: 14px;
+    }
+    h1 { margin: 0; font-size: 1.35rem; letter-spacing: 0.02em; }
+    .meta { color: var(--muted); font-size: 0.9rem; line-height: 1.5; }
+    .grid {
+      display: grid; grid-template-columns: repeat(2, minmax(280px, 1fr)); gap: 14px;
+    }
+    .panel {
+      background: var(--card); border: 1px solid var(--line); border-radius: 10px;
+      padding: 16px 18px; min-height: 160px;
+    }
+    .panel h2 {
+      margin: 0 0 6px; font-size: 0.95rem; font-weight: 600; color: var(--accent);
+      text-transform: none;
+    }
+    .unit { color: var(--muted); font-size: 0.78rem; margin-bottom: 10px; }
+    .metrics { display: flex; flex-wrap: wrap; gap: 14px; margin: 8px 0 12px; }
+    .metric strong { display: block; font-size: 1.4rem; }
+    .metric span { color: var(--muted); font-size: 0.75rem; }
+    .threshold {
+      font-size: 0.82rem; padding: 6px 8px; border-radius: 6px;
+      background: #121a24; border: 1px dashed var(--line);
+    }
+    .threshold.ok { border-color: var(--ok); color: var(--ok); }
+    .threshold.breach { border-color: var(--bad); color: var(--bad); }
+    table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
+    td, th { padding: 4px 6px; border-bottom: 1px solid var(--line); text-align: left; }
+    .live {
+      margin-top: 14px; padding: 10px 12px; background: #121a24; border-radius: 8px;
+      font-size: 0.85rem; color: var(--muted);
+    }
+    footer { margin-top: 16px; color: var(--muted); font-size: 0.8rem; }
+    @media (max-width: 800px) { .grid { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+  <header>
+    <div>
+      <h1>Day 13 AI Observability</h1>
+      <div class="meta">
+        Source: <code>data/logs.jsonl</code> · Contract: <code>config/dashboard.yaml</code><br/>
+        Time range default: <strong>Last 60 minutes</strong> · Refresh: <strong>30s</strong> (manual reload for this HTML)
+      </div>
+    </div>
+    <div class="meta">Generated: 2026-08-11 09:22 UTC<br/>Tool: Spec HTML renderer (local)</div>
+  </header>
+
+  <div class="grid">
+    <section class="panel">
+      <h2>1. Latency percentiles</h2>
+      <div class="unit">Unit: ms · Fields: latency_ms on response_sent</div>
+      <div class="metrics">
+        <div class="metric"><strong>1053</strong><span>P50</span></div>
+        <div class="metric"><strong>1478</strong><span>P95</span></div>
+        <div class="metric"><strong>1478</strong><span>P99</span></div>
+      </div>
+      <div class="threshold ok">SLO line: P95 ≤ 3000 ms · current P95 = 1478 ms</div>
+    </section>
+
+    <section class="panel">
+      <h2>2. Request traffic</h2>
+      <div class="unit">Unit: requests · Events: request_received</div>
+      <div class="metrics">
+        <div class="metric"><strong>20</strong><span>total requests (window logs)</span></div>
+        <div class="metric"><strong>20</strong><span>responses sent</span></div>
+      </div>
+      <div class="threshold ok">Threshold: rate ≥ 1 req/min when lab is active</div>
+    </section>
+
+    <section class="panel">
+      <h2>3. Error rate and breakdown</h2>
+      <div class="unit">Unit: percent · Events: request_received / request_failed</div>
+      <div class="metrics">
+        <div class="metric"><strong>0.00%</strong><span>error_rate_pct</span></div>
+      </div>
+      <table><thead><tr><th>error_type</th><th>count</th></tr></thead><tbody><tr><td>—</td><td>0</td></tr></tbody></table>
+      <div class="threshold ok" style="margin-top:10px">SLO line: error_rate ≤ 2% · current = 0.00%</div>
+    </section>
+
+    <section class="panel">
+      <h2>4. Cost over time</h2>
+      <div class="unit">Unit: usd · Field: cost_usd</div>
+      <div class="metrics">
+        <div class="metric"><strong>$0.0439</strong><span>total_cost_usd</span></div>
+        <div class="metric"><strong>$0.0022</strong><span>avg_cost_usd</span></div>
+      </div>
+      <div class="threshold ok">Budget line: total ≤ $2.50 / day · current window total = $0.0439</div>
+    </section>
+
+    <section class="panel">
+      <h2>5. Input and output tokens</h2>
+      <div class="unit">Unit: tokens · Fields: tokens_in, tokens_out</div>
+      <div class="metrics">
+        <div class="metric"><strong>660</strong><span>tokens_in_total</span></div>
+        <div class="metric"><strong>2793</strong><span>tokens_out_total</span></div>
+      </div>
+      <div class="threshold ok">Threshold: sum ≤ 50_000 · current = 3453</div>
+    </section>
+
+    <section class="panel">
+      <h2>6. Quality proxy</h2>
+      <div class="unit">Unit: score 0–1 · Field: quality_score</div>
+      <div class="metrics">
+        <div class="metric"><strong>0.880</strong><span>quality_avg (mean)</span></div>
+      </div>
+      <div class="threshold ok">SLO line: mean ≥ 0.75 · current = 0.880</div>
+    </section>
+  </div>
+
+  
+        <div class="live">
+          <strong>Live GET /metrics</strong>
+          traffic=0 ·
+          p95=0.0 ms ·
+          error=0.0% ·
+          cost=$0 ·
+          quality=0.0
+        </div>
+        
+
+  <footer>
+    Spec: docs/dashboard-spec.md · SLO: config/slo.yaml · Alerts: config/alert_rules.yaml + docs/alerts.md<br/>
+    Validator: <code>python scripts/validate_dashboard.py</code> → must report 6/6 panel.
+  </footer>
+</body>
+</html>
