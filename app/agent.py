@@ -31,6 +31,8 @@ class LabAgent:
     @observe(as_type="generation", capture_input=False, capture_output=False)
     def run(self, user_id: str, feature: str, session_id: str, message: str) -> AgentResult:
         started = time.perf_counter()
+        # Bound by CorrelationIdMiddleware; ties this trace back to the log lines.
+        correlation_id = get_contextvars().get("correlation_id")
         docs = retrieve(message)
         langfuse_client = get_langfuse_client()
         prompt = resolve_prompt(
@@ -45,12 +47,16 @@ class LabAgent:
         latency_ms = int((time.perf_counter() - started) * 1000)
         cost_usd = self._estimate_cost(response.usage.input_tokens, response.usage.output_tokens)
 
+        # Only present when running behind the API middleware; keep it out of the
+        # metadata entirely rather than shipping a null.
+        correlation_meta = {"correlation_id": correlation_id} if correlation_id else {}
+
         langfuse_client.update_current_trace(
             user_id=hash_user_id(user_id),
             session_id=session_id,
             tags=["lab", feature, self.model],
             metadata={
-                "correlation_id": get_contextvars().get("correlation_id", "MISSING"),
+                **correlation_meta,
                 "prompt_name": prompt.name,
                 "prompt_label": prompt.label,
                 "prompt_version": prompt.version,
@@ -60,6 +66,7 @@ class LabAgent:
         langfuse_client.update_current_generation(
             model=self.model,
             metadata={
+                **correlation_meta,
                 "doc_count": len(docs),
                 "query_preview": summarize_text(message),
                 "prompt_name": prompt.name,

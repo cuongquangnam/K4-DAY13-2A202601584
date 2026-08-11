@@ -10,3 +10,4 @@ data/audit.jsonl
 pytest-cache-files-*/
 .tmp/
 .antigravity/
+.cursor/
