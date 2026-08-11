@@ -6,15 +6,15 @@
 |---|---|
 | **Tên nhóm** | AETAODONG |
 | **Repository URL** | https://github.com/cuongquangnam/K4-DAY13-2A202601584 |
-| **Commit SHA cuối** | 6b333de |
+| **Commit SHA cuối** | 4421ca0 |
 | **Thành viên và vai trò** | Xem bảng bên dưới |
 
 | Thành viên | Vai trò |
 |---|---|
-| Trương Công Cường | Tracing & Prompt Version |
-| Phạm Thanh Hưng | Dashboard, SLO & Alert |
+| Trương Công Cường | Checkpoint 2 — Tracing, Prompt Version, Dashboard/SLO/Alert |
+| Phạm Thanh Hưng | Checkpoint 3 — Challenge Investigation |
 | Nguyễn Thế Khiêm | Logging & PII |
-| Đỗ Đức Tiến | Incident, Report & Demo |
+| Đỗ Đức Tiến | Evaluation & Report |
 
 ---
 
@@ -22,11 +22,11 @@
 
 | Hạng mục | Kết quả |
 |---|---|
-| Điểm `validate_logs.py` | **100/100** — xem [cp1_validator_output.txt](evidence/cp1_validator_output.txt) & [cp1_validator_screenshot.png](evidence/cp1_validator_screenshot.png) |
-| Tổng số log records phân tích | 22 records |
+| Điểm `validate_logs.py` | **100/100** trên `data/logs.jsonl` hiện tại — xem [final_validate_logs_output.txt](evidence/final_validate_logs_output.txt) |
+| Tổng số log records phân tích | 28 records |
 | Records thiếu trường bắt buộc | 0 |
 | Records thiếu enrichment | 0 |
-| Unique correlation IDs | 10 |
+| Unique correlation IDs | 12 |
 | PII leaks còn lại | **0** |
 | Dashboard contract | **HỢP LỆ: 6/6 panel** |
 | Challenge ID | `day13-k4-observability-v1` |
@@ -55,8 +55,7 @@ Hệ thống sử dụng **structlog** với pipeline xử lý theo thứ tự (
 - Lấy `x-request-id` từ header client hoặc tự sinh `req-<8hex>` bằng UUID4
 - `bind_contextvars(correlation_id=...)` — ID tự động xuất hiện trong **mọi** log line của request
 - Gán vào `request.state.correlation_id` để trả lại qua `ChatResponse.correlation_id`
-
-> **Lưu ý**: Header `x-request-id` và `x-response-time-ms` trong response chưa được bổ sung (còn là `TODO` trong middleware — dòng 25-27). Đây là điểm có thể cải thiện.
+- Trả `x-request-id` và `x-response-time-ms` trong response header để client/load test đối chiếu log
 
 **Evidence**: [cp1-validate-logs.png](evidence/cp1-validate-logs.png) — 10 request → 10 correlation ID duy nhất dạng `req-<8hex>`.
 
@@ -285,10 +284,8 @@ Client
 
 | Vấn đề | File | Dòng |
 |---|---|---|
-| Header `x-request-id` và `x-response-time-ms` chưa set trong response | `app/middleware.py` | 25-27 |
 | Prompt versioning Langfuse cloud chưa có evidence trace thật | — | — |
 | Evidence dashboard screenshot runtime chưa có | `submission/evidence/` | — |
-| Đóng góp cá nhân cần bổ sung commit SHA cho 3 thành viên còn lại | `submission/REPORT.md` | §8 |
 
 ---
 
@@ -314,9 +311,9 @@ Client
 | Thành viên | Phần việc | Commit/PR | Điều đã học |
 |---|---|---|---|
 | Nguyễn Thế Khiêm | Checkpoint 1 — correlation ID, log enrichment, PII redaction, error rate | `6b333de` | Redact PII phải đặt trước bước ghi file; regex quá tham sẽ che nhầm trace ID — cần neo bằng từ khóa |
-| Trương Công Cường | Checkpoint 2 — tracing, prompt versioning, Langfuse integration, `@observe` decorator | _(cần bổ sung commit SHA)_ | `@observe` chỉ hoạt động khi Langfuse SDK khả dụng; fallback dummy client cần implement đủ method |
-| Phạm Thanh Hưng | Checkpoint 2 — dashboard contract YAML, SLO, alert rules, validate_dashboard script | _(cần bổ sung commit SHA)_ | Dashboard contract phải khớp đúng panel ID, aggregation và operator — validator kiểm tra từng trường |
-| Đỗ Đức Tiến | Checkpoint 3 — chạy challenge, điều tra incident, root cause analysis, báo cáo | _(cần bổ sung commit SHA)_ | Luồng Metrics → Trace → Logs giúp thu hẹp hypothesis từ "latency tăng" → "RAG span" → "rag_slow incident" trong dưới 5 phút |
+| Trương Công Cường | Checkpoint 2 — tracing, prompt versioning, Langfuse integration, dashboard contract, SLO và alert rules | `681be4f`, `f4c27bc` | Dashboard/trace evidence phải khớp đúng metadata, panel ID, aggregation và threshold mà validator kiểm tra |
+| Phạm Thanh Hưng | Checkpoint 3 — chạy challenge, điều tra incident, root cause analysis, evidence CP3 | `d9a9f06` | Luồng Metrics → Trace → Logs giúp thu hẹp hypothesis từ "latency tăng" → "RAG span" → "rag_slow incident" trong dưới 5 phút |
+| Đỗ Đức Tiến | Evaluation, rà soát kết quả và viết/cập nhật báo cáo | `5fb825b` | Báo cáo cần đối chiếu lại với evidence, validator output và commit thực tế để tránh lệch số liệu |
 
 ---
 
@@ -325,6 +322,7 @@ Client
 | Hạng mục | File | Trạng thái |
 |---|---|---|
 | Validate logs 100/100 | [cp1_validator_output.txt](evidence/cp1_validator_output.txt) | ✅ |
+| Validate logs hiện tại | [final_validate_logs_output.txt](evidence/final_validate_logs_output.txt) | ✅ |
 | Validate logs screenshot | [cp1_validator_screenshot.png](evidence/cp1_validator_screenshot.png) | ✅ |
 | PII redaction screenshot | [cp1-pii-redaction.png](evidence/cp1-pii-redaction.png) | ✅ |
 | PII redacted log excerpt | [cp1_redacted_log_excerpt.jsonl](evidence/cp1_redacted_log_excerpt.jsonl) | ✅ |

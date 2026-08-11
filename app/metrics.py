@@ -52,10 +52,6 @@ def error_rate_pct() -> float:
 
 
 def snapshot() -> dict:
-    total_errors = sum(ERRORS.values())
-    total_requests = TRAFFIC + total_errors
-    error_rate = (total_errors / total_requests * 100) if total_requests > 0 else 0.0
-
     return {
         "traffic": TRAFFIC,
         "errors_total": sum(ERRORS.values()),
@@ -67,7 +63,6 @@ def snapshot() -> dict:
         "total_cost_usd": round(sum(REQUEST_COSTS), 4),
         "tokens_in_total": sum(REQUEST_TOKENS_IN),
         "tokens_out_total": sum(REQUEST_TOKENS_OUT),
-        "error_rate_pct": round(error_rate, 2),
         "error_breakdown": dict(ERRORS),
         "quality_avg": round(mean(QUALITY_SCORES), 4) if QUALITY_SCORES else 0.0,
     }

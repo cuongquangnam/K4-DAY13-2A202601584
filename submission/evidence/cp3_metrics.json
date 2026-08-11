@@ -123,18 +123,13 @@
   },
   "root_correlation_id": "req-d2627011",
   "incident_latencies_ms": [
-    150,
-    150,
-    150,
-    150,
-    150,
     2651,
     2651,
     2651,
     2651,
     2651
   ],
-  "incident_latency_avg_ms": 1400.5,
+  "incident_latency_avg_ms": 2651.0,
   "evidence_counts": {
     "total_log_records": 28,
     "rag_retrieval_slow_records": 5,
