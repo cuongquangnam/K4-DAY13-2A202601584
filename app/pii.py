@@ -4,11 +4,27 @@ import hashlib
 import re
 
 PII_PATTERNS: dict[str, str] = {
+    # Order matters: credit_card runs before cccd so a 16-digit card is not
+    # partially eaten by the 12-digit rule, and both run before bare-number
+    # patterns.
     "email": r"[\w\.-]+@[\w\.-]+\.\w+",
     "phone_vn": r"(?<!\d)(?:\+84|0)(?:[ .-]?\d){9}(?!\d)",
-    "cccd": r"\b\d{12}\b",
     "credit_card": r"\b\d{4}[- ]?\d{4}[- ]?\d{4}[- ]?\d{4}\b",
-    # TODO: Add more patterns (e.g., Passport, Vietnamese address keywords)
+    "cccd": r"\b\d{12}\b",
+    # Vietnamese passport: one letter + 7 digits. A bare [A-Z]\d{7} also matches
+    # trace and ticket IDs, so require a nearby keyword to keep IDs readable.
+    "passport_vn": r"(?i)\b(?:hộ chiếu|ho chieu|passport)\s*:?\s*[A-Z]\d{7}\b",
+    # Address: keyword-anchored so ordinary prose is left alone. Accented and
+    # unaccented spellings both appear in real user input.
+    "address_vn": (
+        r"(?i)\b(?:số nhà|so nha|đường|duong|phố|pho|ngõ|ngo|hẻm|hem|"
+        r"quận|quan|phường|phuong|thôn|thon|xã|xa|huyện|huyen)\s+"
+        r"[\w/.\- ]{1,40}?(?=[,.;\n]|$)"
+    ),
+    "bank_account_vn": (
+        r"(?i)\b(?:stk|số tài khoản|so tai khoan|tài khoản|tai khoan)"
+        r"\s*:?\s*\d{8,16}\b"
+    ),
 }
 
 

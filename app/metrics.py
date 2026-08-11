@@ -37,9 +37,25 @@ def percentile(values: list[int], p: int) -> float:
 
 
 
+def error_rate_pct() -> float:
+    """Share of requests that failed, over every request the app handled.
+
+    TRAFFIC only counts successful requests: record_request runs at the end of
+    agent.run(), which a failing request never reaches. So the denominator is
+    successes plus errors, not TRAFFIC alone.
+    """
+    errors_total = sum(ERRORS.values())
+    handled = TRAFFIC + errors_total
+    if handled == 0:
+        return 0.0
+    return round(errors_total / handled * 100, 2)
+
+
 def snapshot() -> dict:
     return {
         "traffic": TRAFFIC,
+        "errors_total": sum(ERRORS.values()),
+        "error_rate_pct": error_rate_pct(),
         "latency_p50": percentile(REQUEST_LATENCIES, 50),
         "latency_p95": percentile(REQUEST_LATENCIES, 95),
         "latency_p99": percentile(REQUEST_LATENCIES, 99),
