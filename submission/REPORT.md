@@ -9,7 +9,7 @@
 
 ## 2. Kết quả kỹ thuật
 
-- Điểm `validate_logs.py`:
+- Điểm `validate_logs.py`: Baseline CP0 = 100/100 (10 log records, 0 missing required fields, 0 missing enrichment, 6 unique correlation IDs, 0 PII leaks)
 - Tổng số traces:
 - Số PII leak còn lại:
 - Link/đường dẫn dashboard:
